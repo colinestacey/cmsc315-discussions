@@ -29,7 +29,7 @@ Your reflection should be approximately 150–200 words and address the followin
 2. What challenges did you encounter, and how did you overcome them?
 3. How do list operations impact performance in real-world applications?
 
-I thought a navigation bar in a web page provided a convenient example for list operations because all the links have a location. Menu labels were stored in one list and each function was used to add, remove, and search for links. The test cases show how a list, changes as pages are added or removed.
+I thought a navigation bar in a web page provided a convenient example for list operations because all the links have a location. Menu labels were stored in one list and each function was used to add, remove, and search for links. The test cases show how a list changes as pages are added or removed.
 
 The assignment helped reinforce the concepts of element shifting and index validation for me. After several operations on the same list, it became harder to keep track of positions. I found that using len(menu) to get middle and end indexes instead of the positions was a good way to stop using the outdated positions.
 
