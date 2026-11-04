@@ -15,14 +15,11 @@ def insert_at(lst, index, value):
     TODO (Student):
     Insert a value into the list at the specified index.
 
-    Requirements:
-    - Use a list operation to insert the value.
-    - Add comments explaining what happens to existing elements
-      after an insertion occurs.
-    - Use comments to explain how insertion performance may vary depending on
-      where the insertion occurs.
+    Existing elements at and after the insertion index shift right.
+    Inserting at the beginning shifts all elements for an O(n) time complexity.
+    Inserting at the end is usually O(1) time complexity, unless resizing occurs.
     """
-    pass
+    lst.insert(index, value)
 
 
 def delete_at(lst, index):
@@ -30,13 +27,13 @@ def delete_at(lst, index):
     TODO (Student):
     Remove and return the value at the specified index.
 
-    Requirements:
-    - Validate that the index exists.
-    - Return the removed value.
-    - Return None if the index is invalid.
-    - Add comments explaining why index validation and safe deletion are important.
+    Check for a valid index to prevent an IndexError. If index is invalid, return None without changing the list.
+    Remove the element at the specified index and return it.
+    Elements after the removed item shift left to fill the empty space.
     """
-    pass
+    if (index < 0) or (index >= len(lst)):
+        return None
+    return lst.pop(index)
 
 
 def search_value(lst, value):
@@ -44,13 +41,14 @@ def search_value(lst, value):
     TODO (Student):
     Search for a value within the list.
 
-    Requirements:
-    - Return the index if the value is found.
-    - Return -1 if the value is not found.
-    - Add comments explaining why this is a linear search and why it scans sequentially.
+    Return the first index of value in the list, or -1 if no such value.
+    This for loop is a linear search because it visits elements of a list one at a time.
+    The list may be unsorted, so the search checks each element in the list sequentially.
     """
-    pass
-
+    for index, item in enumerate(lst):
+        if item == value:
+            return index
+    return -1
 
 def main():
     print("=== UNIT 3: LIST OPERATIONS ===")
@@ -69,8 +67,23 @@ def main():
     # 4. Display the list after each insertion.
     # 5. Use comments to explain each step in the implementation.
 
+    # Create and display the website's original navigation menu for all tests
+    menu = ["Home", "About", "Services", "Contact", "Login", "FAQ"]
+    print("Original list:", menu)
+
     print("\n=== INSERTION TESTS ===")
-    print("TODO: Create a list and demonstrate insertions.")
+
+    # Insert element "Dashboard" at the beginning, all existing elements shift right.
+    insert_at(menu, 0, "Dashboard")
+    print("List after insertion at the beginning:", menu)
+
+    # Insert element "Resources" at the current middle index, elements at and after it shift right
+    insert_at(menu, len(menu) // 2, "Resources")
+    print("List after insertion in the middle:", menu)
+
+    # Insert element "Support" at the end, no shifts are required.
+    insert_at(menu, len(menu), "Support")
+    print("List after insertion at the end:", menu)
 
     # ===============================
     # TODO (Student): DELETION TESTS
@@ -86,7 +99,18 @@ def main():
     # 4. Use comments to clearly explain what is happening in the output.
 
     print("\n=== DELETION TESTS ===")
-    print("TODO: Demonstrate deletions from multiple positions.")
+
+    # Remove the first element "Dashboard" in the list, all remaining items shift left.
+    print("Element removed:", delete_at(menu, 0))
+    print("List after deletion at the beginning:", menu)
+
+    # Remove the element "Contact" located at the current middle index
+    print("Element removed:", delete_at(menu, len(menu) // 2))
+    print("List after deletion in the middle:", menu)
+
+    # Remove the element "Support" from the last valid index of the current menu
+    print("Element removed:", delete_at(menu, len(menu) - 1))
+    print("List after deletion at the end:", menu)
 
     # ===============================
     # TODO (Student): SEARCH TESTS
@@ -99,7 +123,15 @@ def main():
     # 4. Use comments to explain each step.
 
     print("\n=== SEARCH TESTS ===")
-    print("TODO: Demonstrate searching for values.")
+
+    # Search for element "Resources" in the list, which exists at index 2.
+    print("Index of 'Resources':", search_value(menu, "Resources"))
+
+    # Search for element "Search" in the list, which does not exist. The search returns -1.
+    print("Index of 'Search':", search_value(menu, "Search"))
+
+    # Display the list to confirm the search did not change it.
+    print("List after search:", menu)
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -115,9 +147,16 @@ def main():
     # - Use comments to explain each edge case.
 
     print("\n=== EDGE CASES ===")
-    print("TODO: Demonstrate at least two edge cases.")
 
+    # Attempt to delete an element using an invalid index, return None without changing the list
+    print("Delete an element at an invalid index:", delete_at(menu, len(menu)))
+    print("List after an invalid deletion:", menu)
 
+    # Insert the element "Home" into an empty list.
+    empty_menu = []
+    print("\nOriginal empty list:", empty_menu)
+    insert_at(empty_menu, 0, "Home")
+    print("List after inserting an element into an empty list:", empty_menu)
 
 if __name__ == "__main__":
     main()

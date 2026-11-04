@@ -28,3 +28,11 @@ Your reflection should be approximately 150–200 words and address the followin
 1. What concepts or skills did you learn while completing this assignment?
 2. What challenges did you encounter, and how did you overcome them?
 3. How do list operations impact performance in real-world applications?
+
+I thought a navigation bar in a web page provided a convenient example for list operations because all the links have a location. Menu labels were stored in one list and each function was used to add, remove, and search for links. The test cases show how a list, changes as pages are added or removed.
+
+The assignment helped reinforce the concepts of element shifting and index validation for me. After several operations on the same list, it became harder to keep track of positions. I found that using len(menu) to get middle and end indexes instead of the positions was a good way to stop using the outdated positions.
+
+The performance of an operation is dependent on its location. An array-based list has O(n) time for inserting and deleting elements at the beginning. Having to check all elements to find a particular element in an unsorted list will take O(n), while accessing it by index will have a time complexity of O(1). These differences become more significant the larger the lists.
+
+A linked list can be optimized for the frequent insertion and deletion of nodes when the necessary node references are provided already without shifting of the surrounding elements. But traversal is needed for finding a position, so an array-based list would be useful for direct indexing.
