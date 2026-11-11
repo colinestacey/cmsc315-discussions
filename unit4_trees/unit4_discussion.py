@@ -17,14 +17,16 @@ class Node:
         # TODO (Student):
         # Store the node's value and initialize references
         # to the left and right child nodes.
-        pass
+        self.value = value
+        self.left = None
+        self.right = None
 
 
 class BST:
     def __init__(self):
         # TODO (Student):
         # Initialize an empty Binary Search Tree.
-        pass
+        self.root = None
 
     def insert(self, value):
         """
@@ -37,7 +39,9 @@ class BST:
           whether a value is smaller or larger than the
           current node.
         """
-        pass
+        # Smaller values go left and larger values go right.
+        # This is so later searches can use the same ordering to choose a branch.
+        self.root = self._insert_recursive(self.root, value)
 
     def _insert_recursive(self, node, value):
         """
@@ -50,7 +54,16 @@ class BST:
         - Insert larger values into the right subtree.
         - Return the updated node reference.
         """
-        pass
+        if node is None:
+            return Node(value)
+
+        if value < node.value:
+            node.left = self._insert_recursive(node.left, value)
+
+        elif value > node.value:
+            node.right = self._insert_recursive(node.right, value)
+
+        return node
 
     def search(self, value):
         """
@@ -63,14 +76,25 @@ class BST:
         - Add comments explaining why BST search is often
           more efficient than linear search.
         """
-        pass
+        # Each comparison rules out one subtree.
+        # A balanced BST search can take O(log n) time. A skewed BST search can take O(n) time.
+        return self._search_recursive(self.root, value)
 
     def _search_recursive(self, node, value):
         """
         TODO (Student):
         Implement recursive BST search.
         """
-        pass
+        if node is None:
+            return False
+
+        if value == node.value:
+            return True
+
+        if value < node.value:
+            return self._search_recursive(node.left, value)
+
+        return self._search_recursive(node.right, value)
 
     def inorder(self):
         """
@@ -78,7 +102,9 @@ class BST:
         Return a list containing the values from an
         in-order traversal.
         """
-        pass
+        values = []
+        self._inorder_recursive(self.root, values)
+        return values
 
     def _inorder_recursive(self, node, values):
         """
@@ -92,7 +118,14 @@ class BST:
         - Add comments explaining why this traversal
           produces sorted output in a BST.
         """
-        pass
+        # Visit the smaller values first, then the current value,
+        # then the larger values to create an ascending order.
+        if node is None:
+            return
+
+        self._inorder_recursive(node.left, values)
+        values.append(node.value)
+        self._inorder_recursive(node.right, values)
 
 
 def main():
@@ -113,6 +146,16 @@ def main():
     print("\n=== TREE CONSTRUCTION ===")
     print("TODO: Create a BST and insert multiple values.")
 
+    vlan_inventory = BST()
+    vlan_ids = [40, 20, 60, 10, 30, 50, 70]
+
+    # At each node, a smaller value can only be in the left subtree,
+    # and a larger value can only be in the right subtree.
+    # This lets searches skip the opposite subtree at each step.
+    for vlan_id in vlan_ids:
+        vlan_inventory.insert(vlan_id)
+        print("Inserted VLAN ID:", vlan_id)
+
     # ===============================
     # TODO (Student): IN-ORDER TRAVERSAL
     # ===============================
@@ -126,6 +169,10 @@ def main():
     print("\n=== IN-ORDER TRAVERSAL ===")
     print("TODO: Display and explain traversal results.")
 
+    # Visiting the left subtree, then the current node, then the right subtree
+    # displays the VLAN IDs from smallest to largest.
+    print("VLAN IDs in ascending order:", vlan_inventory.inorder())
+
     # ===============================
     # TODO (Student): SEARCH TESTS
     # ===============================
@@ -137,6 +184,11 @@ def main():
 
     print("\n=== SEARCH TESTS ===")
     print("TODO: Demonstrate BST searching.")
+
+    # VLANs 30 and 50 were inserted, so both searches return True.
+    # VLANs 15 and 55 don't exist, so their searches reach None and return False.
+    for vlan_id in [30, 50, 15, 55]:
+        print(f"Is VLAN {vlan_id} listed? {vlan_inventory.search(vlan_id)}")
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -155,6 +207,9 @@ def main():
     print("\n=== EDGE CASES ===")
     print("TODO: Demonstrate and explain an edge case.")
 
+    # The recursive insertion helper method skips equal values, so VLAN 30 only appears in the tree once.
+    vlan_inventory.insert(30)
+    print("VLAN IDs after inserting a duplicate value:", vlan_inventory.inorder())
 
 
 if __name__ == "__main__":
